@@ -15,10 +15,6 @@ void main() {
 
     System.out.println("  \n \n \n");
 
-    arvoreBinaria.remover(9);
-    arvoreBinaria.remover(-7);
-    arvoreBinaria.remover(20);
-    arvoreBinaria.remover(777);
-    arvoreBinaria.remover(33);
-
+    arvoreBinaria.remover(88);
+    arvoreBinaria.percurso("Pre");
 }

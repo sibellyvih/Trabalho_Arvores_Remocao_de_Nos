@@ -6,17 +6,18 @@ public class ArvoreBinaria {
         System.out.println("Raiz da árvore binária criada com sucesso!");
     }
 
-    public void inserir(Integer conteudo){
+    public void inserir(Integer conteudo) {
         No novoNo = new No(conteudo);
         No aux = raiz;
-        if(estaVazia()){
+        if (estaVazia()) {
             raiz = novoNo;
+            System.out.println("Nó " + novoNo.getConteudo() + " inserido na árvore binária com sucesso!");
         } else {
-           inserirRecursivo(novoNo, aux);
+            inserirRecursivo(novoNo, aux);
         }
     }
 
-    private void inserirRecursivo(No novoNo, No aux){
+    private void inserirRecursivo(No novoNo, No aux) {
         if (aux.getConteudo() > novoNo.getConteudo()) {
             if (aux.getEsquerda() == null) {
                 aux.setEsquerda(novoNo);
@@ -36,8 +37,8 @@ public class ArvoreBinaria {
         }
     }
 
-    private boolean estaVazia(){
-        if(raiz != null){
+    private boolean estaVazia() {
+        if (raiz != null) {
             return false;
         } else {
             return true;
@@ -45,21 +46,21 @@ public class ArvoreBinaria {
     }
 
     public void percurso(String percurso) {
-        if(estaVazia()) {
+        if (estaVazia()) {
             System.out.println("A árvore não existe.");
             return;
         }
 
         switch (percurso) {
-            case("Pre"):
+            case ("Pre"):
                 System.out.println("Executando a árvore em pré ordem.");
                 this.preOrdem(this.raiz);
                 break;
-            case("Em"):
+            case ("Em"):
                 System.out.println("Executando a árvore em ordem.");
                 this.emOrdem(this.raiz);
                 break;
-            case("Pos"):
+            case ("Pos"):
                 System.out.println("Executando a árvore em pós ordem.");
                 this.posOrdem(this.raiz);
                 break;
@@ -71,7 +72,7 @@ public class ArvoreBinaria {
     }
 
     private void posOrdem(No no) {
-        if(no == null) {
+        if (no == null) {
             return;
         }
         posOrdem(no.getEsquerda());
@@ -80,7 +81,7 @@ public class ArvoreBinaria {
     }
 
     private void preOrdem(No no) {
-        if(no == null) {
+        if (no == null) {
             return;
         }
         System.out.println(no.getConteudo());
@@ -89,7 +90,7 @@ public class ArvoreBinaria {
     }
 
     private void emOrdem(No no) {
-        if(no == null) {
+        if (no == null) {
             return;
         }
         emOrdem(no.getEsquerda());
@@ -97,67 +98,50 @@ public class ArvoreBinaria {
         emOrdem(no.getDireita());
     }
 
-    //Coloquei boolean para verificar se a remoção deu certo
-    // Sempre usando o PREDECESSOR
-    public boolean remover(int conteudo){
-        // vou verificar se o nó existe
+    public void remover(int conteudo) {
         No aux = raiz;
-        if (!estaVazia()){
-            procurarElemento(conteudo, aux);
-//            if (procurarElemento(conteudo, aux)){
-//                removerElemento(aux);
-//            } else {
-//                System.out.println("Encerrado procura!");
-//                return false;
-//            }
-        } else {
-            System.out.println("A lista está vazia!");
-        }
-        return true;
-    }
-
-    private boolean procurarElemento(int conteudo, No aux) {
-
-            if (conteudo == aux.getConteudo()) {
-                // se for igual raiz
-                System.out.println("Elemento " + aux.getConteudo() + " encontrado na árvore binária!");
-            } else if (conteudo > aux.getConteudo()) {
-                //conferir se é o proximo a direita da raiz
-                if(aux.getDireita().getConteudo() == conteudo){
-                    return true;
-                } else {
-                    aux = aux.getDireita();
-                    if (aux.getDireita() == null){
-                        System.out.println("Elemento " + conteudo + " não encontrado na árvore binária");
-                        return false;
-                    } else {
-                        procurarElemento(conteudo, aux);
-                    }
-                }
+        // vou verificar se a lista existe
+        if (!estaVazia()) {
+           removerRecursivamente(conteudo, aux);
 
             } else {
-
-                //conferir se é o proximo a esquerda da raiz
-                if(aux.getEsquerda().getConteudo() == conteudo){
-                    return true; // retorna o pai
-                } else {
-                    aux = aux.getEsquerda();
-                    if (aux.getEsquerda() == null){
-                        System.out.println("Elemento " + conteudo + " não encontrado na árvore binária");
-                        return false;
-                    } else {
-                        procurarElemento(conteudo, aux);
-                    }
-                }
+            System.out.println("Não é possível remover. Lista vazia!");
             }
-
-        return true;
     }
 
-    private void removerElemento(No aux){
-        // se for folha
-        if(aux.getEsquerda() == null && aux.direita == null){
+    private No removerRecursivamente(int conteudo, No aux){
+        if(aux == null){
+            System.out.println("Elemento não encontrado na lista");
+            return null;
+        } else if (conteudo > aux.getConteudo()){
+            // vai definir a direita pela recursão
+            aux.setDireita(removerRecursivamente(conteudo, aux.getDireita()));
+        } else if (conteudo < aux.getConteudo()){
+            aux.setEsquerda(removerRecursivamente(conteudo, aux.getEsquerda()));
+        } else {
+            System.out.println("Elemento "+ aux.getConteudo() +" encontrado!");
 
+            // Conferir se não tem filho
+            if (aux.getEsquerda() == null && aux.getDireita() == null){
+                //retorna nulo o conteudo do auxiliar
+                System.out.println("Nó removido com sucesso!");
+                return null;
+            }
+
+            // Conferir se o nó com um filho
+            if (aux.getEsquerda() == null || aux.getDireita() == null){
+                //filho da esquerda existir
+                if (aux.getEsquerda() != null){
+                    // Nó a esquerda vai substituir o lugar do aux
+                    System.out.println("Nó removido com sucesso!");
+                    return aux.getEsquerda();
+                } else if (aux.getDireita() != null){
+                    // Nó a direita vai substituir o lugar do aux
+                    System.out.println("Nó removido com sucesso!");
+                    return aux.getEsquerda();
+                }
+            }
         }
+        return aux;
     }
 }
