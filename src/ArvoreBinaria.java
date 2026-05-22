@@ -128,9 +128,9 @@ public class ArvoreBinaria {
                 return null;
             }
 
-            // Conferir se o nó com um filho
+            // Conferir se o nó tem um filho
             if (aux.getEsquerda() == null || aux.getDireita() == null){
-                //filho da esquerda existir
+                // se o filho da esquerda existir
                 if (aux.getEsquerda() != null){
                     // Nó a esquerda vai substituir o lugar do aux
                     System.out.println("Nó removido com sucesso!");
@@ -138,10 +138,28 @@ public class ArvoreBinaria {
                 } else if (aux.getDireita() != null){
                     // Nó a direita vai substituir o lugar do aux
                     System.out.println("Nó removido com sucesso!");
-                    return aux.getEsquerda();
+                    return aux.getDireita();
                 }
+            }
+
+            // Se tiver dois filhos
+
+            if (aux.getEsquerda() != null && aux.getDireita() != null){
+                No noSucessor = encontrarSucessor(aux.getDireita());
+                aux.setConteudo(noSucessor.getConteudo());
+                aux.setDireita(removerRecursivamente(noSucessor.getConteudo(), aux.getDireita()));
+                System.out.println("Nó removido com sucesso!");
+                return aux.getEsquerda();
             }
         }
         return aux;
     }
+
+    private No encontrarSucessor(No auxSucessor){
+        if (auxSucessor.getEsquerda() != null){
+            auxSucessor = encontrarSucessor(auxSucessor.getEsquerda());
+        }
+        return auxSucessor;
+    }
+
 }
