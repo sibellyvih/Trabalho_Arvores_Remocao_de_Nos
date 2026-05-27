@@ -10,11 +10,14 @@ void main() {
     arvoreBinaria.inserir(-75);
     arvoreBinaria.inserir(-7);
     arvoreBinaria.inserir(20);
+    arvoreBinaria.inserir(89);
+    arvoreBinaria.inserir(10);
+    arvoreBinaria.inserir(10);
 
     arvoreBinaria.percurso("Pre");
 
     System.out.println("  \n \n \n");
 
-    arvoreBinaria.remover(9);
+    arvoreBinaria.remover(14);
     arvoreBinaria.percurso("Pre");
 }

@@ -26,7 +26,7 @@ public class ArvoreBinaria {
                 aux = aux.getEsquerda();
                 inserirRecursivo(novoNo, aux);
             }
-        } else {
+        } else if (aux.getConteudo() < novoNo.getConteudo()){
             if (aux.getDireita() == null) {
                 aux.setDireita(novoNo);
                 System.out.println("Nó " + novoNo.getConteudo() + " inserido na árvore binária com sucesso!");
@@ -34,6 +34,8 @@ public class ArvoreBinaria {
                 aux = aux.getDireita();
                 inserirRecursivo(novoNo, aux);
             }
+        } else {
+            System.out.println("O nó "+ aux.getConteudo() + " já está presente na árvore!");
         }
     }
 
@@ -53,15 +55,15 @@ public class ArvoreBinaria {
 
         switch (percurso) {
             case ("Pre"):
-                System.out.println("Executando a árvore em pré ordem.");
+                System.out.println("\n---Executando a árvore em pré-ordem---");
                 this.preOrdem(this.raiz);
                 break;
             case ("Em"):
-                System.out.println("Executando a árvore em ordem.");
+                System.out.println("\n---Executando a árvore em-ordem---");
                 this.emOrdem(this.raiz);
                 break;
             case ("Pos"):
-                System.out.println("Executando a árvore em pós ordem.");
+                System.out.println("\n---Executando a árvore em pós ordem---");
                 this.posOrdem(this.raiz);
                 break;
             default:
@@ -102,63 +104,61 @@ public class ArvoreBinaria {
         No aux = raiz;
         // vou verificar se a lista existe
         if (!estaVazia()) {
-           removerRecursivamente(conteudo, aux);
-
-            } else {
+            raiz = removerRecursivamente(conteudo, aux);
+            System.out.println("Nó removido com sucesso!");
+        } else {
             System.out.println("Não é possível remover. Lista vazia!");
-            }
+        }
     }
 
-    private No removerRecursivamente(int conteudo, No aux){
-        if(aux == null){
+    private No removerRecursivamente(int conteudo, No aux) {
+        if (aux == null) {
             System.out.println("Elemento não encontrado na lista");
             return null;
-        } else if (conteudo > aux.getConteudo()){
+        } else if (conteudo > aux.getConteudo()) {
             // vai definir a direita pela recursão
             aux.setDireita(removerRecursivamente(conteudo, aux.getDireita()));
-        } else if (conteudo < aux.getConteudo()){
+        } else if (conteudo < aux.getConteudo()) {
             aux.setEsquerda(removerRecursivamente(conteudo, aux.getEsquerda()));
         } else {
-            System.out.println("Elemento "+ aux.getConteudo() +" encontrado!");
+            System.out.println("Elemento " + aux.getConteudo() + " encontrado!");
 
             // Conferir se não tem filho
-            if (aux.getEsquerda() == null && aux.getDireita() == null){
+            if (aux.getEsquerda() == null && aux.getDireita() == null) {
                 //retorna nulo o conteudo do auxiliar
-                System.out.println("Nó removido com sucesso!");
                 return null;
             }
 
             // Conferir se o nó tem um filho
-            if (aux.getEsquerda() == null || aux.getDireita() == null){
+            if (aux.getEsquerda() == null || aux.getDireita() == null) {
                 // se o filho da esquerda existir
-                if (aux.getEsquerda() != null){
+                if (aux.getEsquerda() != null) {
                     // Nó a esquerda vai substituir o lugar do aux
-                    System.out.println("Nó removido com sucesso!");
                     return aux.getEsquerda();
-                } else if (aux.getDireita() != null){
+                } else if (aux.getDireita() != null) {
                     // Nó a direita vai substituir o lugar do aux
-                    System.out.println("Nó removido com sucesso!");
                     return aux.getDireita();
                 }
             }
 
             // Se tiver dois filhos
 
-            if (aux.getEsquerda() != null && aux.getDireita() != null){
+            if (aux.getEsquerda() != null && aux.getDireita() != null) {
                 No noSucessor = encontrarSucessor(aux.getDireita());
                 aux.setConteudo(noSucessor.getConteudo());
                 aux.setDireita(removerRecursivamente(noSucessor.getConteudo(), aux.getDireita()));
-                System.out.println("Nó removido com sucesso!");
-                return aux.getEsquerda();
+                return aux;
             }
         }
         return aux;
     }
 
-    private No encontrarSucessor(No auxSucessor){
-        if (auxSucessor.getEsquerda() != null){
+    private No encontrarSucessor(No auxSucessor) {
+        if (auxSucessor.getEsquerda() != null) {
             auxSucessor = encontrarSucessor(auxSucessor.getEsquerda());
         }
+
+        System.out.println("Substituindo nó pelo seu sucessor: " + auxSucessor.getConteudo());
         return auxSucessor;
     }
 
