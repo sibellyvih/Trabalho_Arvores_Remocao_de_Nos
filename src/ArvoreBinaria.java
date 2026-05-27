@@ -106,13 +106,13 @@ public class ArvoreBinaria {
         if (!estaVazia()) {
             raiz = removerRecursivamente(conteudo, aux);
         } else {
-            System.out.println("Não é possível remover. Lista vazia!");
+            System.out.println("Não é possível remover. Árvore binária vazia!");
         }
     }
 
     private No removerRecursivamente(int conteudo, No aux) {
         if (aux == null) {
-            System.out.println("Elemento não encontrado na lista");
+            System.out.println("Elemento não encontrado na árvore");
             return null;
         } else if (conteudo > aux.getConteudo()) {
             // vai definir a direita pela recursão

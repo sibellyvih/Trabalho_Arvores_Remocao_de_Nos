@@ -12,7 +12,7 @@ void main() {
 
     System.out.println("  \n \n \n");
 
-    arvoreBinaria.remover(9);
+    arvoreBinaria.remover(14);
     arvoreBinaria.percurso("Pre");
     arvoreBinaria.percurso("Em");
     arvoreBinaria.percurso("Pos");
